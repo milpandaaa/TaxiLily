@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="HTML5BOOK" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="single.css" />
+<style>
+@import url('https://fonts.googleapis.com/css?family=Arimo');
+html, body {min-height:100%}
+body {
+  background: url(https://html5book.ru/wp-content/uploads/2017/04/aleksandar-radovanovic-13513.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment:fixed;
+}
+p {color: #524f4e;}
+header nav a {
+    background: white;
+    padding: 5px 10px;
+    border-bottom: none;
+	border-radius: 3px;
+ }
+.current-demo, header nav a:hover {
+    box-shadow: 0 5px 0 #524f4e;
+}
+.top-menu {
+  position: relative;
+  background: rgba(34,34,34,.2);
+}
+.menu-main {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.menu-main:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.left-item {float: left}
+.right-item {float: right}
+.navbar-logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+.menu-main a {
+  text-decoration: none;
+  display: block;
+  line-height: 80px;
+  padding: 0 20px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-family: 'Arimo', sans-serif;
+  font-weight: bold;
+  color: white;
+  transition:.3s linear;
+}
+.menu-main a:hover{background:rgba(0,0,0,.3)}
+@media(max-width:830px) {
+.menu-main {padding-top: 90px;text-align:center}
+.navbar-logo {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+}
+.menu-main li{float: none;display:inline-block;}
+.menu-main a{line-height:normal;padding: 20px 15px;
+  font-size: 16px;}
+}
+@media(max-width:630px){.menu-main li{display:block;}}
+.rounded {
+counter-reset: li;
+list-style: none;
+font: 14px "Trebuchet MS", "Lucida Sans";
+padding: 0;
+text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.rounded a {
+position: relative;
+display: block;
+padding: .4em .4em .4em 2em;
+margin: .5em 0;
+background: #DAD2CA;
+color: #444;
+text-decoration: none;
+border-radius: .3em;
+transition: .3s ease-out;
+}
+.rounded a:hover {background: #E9E4E0;}
+.rounded a:hover:before {transform: rotate(360deg);}
+.rounded a:before {
+content: counter(li);
+counter-increment: li;
+position: absolute;
+left: -1.3em;
+top: 50%;
+margin-top: -1.3em;
+background: #8FD4C1;
+height: 2em;
+width: 2em;
+line-height: 2em;
+border: .3em solid white;
+text-align: center;
+font-weight: bold;
+border-radius: 2em;
+transition: all .3s ease-out;
+}
+    {% block style %}
+
+{% endblock %}
+</style>
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://cdn.jsdelivr.net/npm/yandex-metrica-watch/tag.js", "ym");
+
+   ym(23928760, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/23928760" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+</head>
+<body>
+<div class="container">
+<nav class="top-menu">
+<ul class="menu-main">
+    {% if user.is_superuser %}
+  <li class="left-item"><a href="{% url 'account' user.id %}">Личный кабинет</a></li>
+        <li class="left-item"><a href="{% url 'tariff' %}">Тарифы</a></li>
+  <li class="left-item"><a href="{% url 'logout' %}">Выйти</a></li>
+    {% else %}
+{% if user.is_authenticated %}
+  <li class="right-item"><a href="{% url 'tariff' %}">Тарифы</a></li>
+  <li class="right-item"><a href="{% url 'freeCar' %}">Список свободных машин</a></li>
+  <li class="right-item"><a href="{% url 'logout' %}">Выйти</a></li>
+{% else %}
+    <li class="right-item"><a href="{% url 'login' %}">Войти</a></li>
+{% endif %}
+{% endif %}
+</ul>
+  <a class="navbar-logo" href=""><img src="https://html5book.ru/wp-content/uploads/2017/04/lily-logo.png"></a>
+</nav>
+</div>
+{% block body %}
+    <div class="left-item" style="margin-left: 10%; margin-top: 5%;">
+<ol class="rounded" >
+    {% for taxi in tax %}
+  <li>{{ taxi.user.username }}<br>Машина :{{ taxi.carBrand }}<br>Тариф :{{ taxi.tariff }}<a href="{% url 'orderCreate' taxi.user.id %}">Заказать такси</a></li>
+    {% endfor %}
+</ol>
+    </div>
+{% endblock %}
+</body>
+</html>

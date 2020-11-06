@@ -1,0 +1,62 @@
+{% extends 'taxi.html' %}
+{% block style %}
+    .account {
+  max-width: 1170px;
+  margin: auto;
+  height: 1000px;
+    background: #ffffff;
+}
+    .cont{
+    margin-left: 10%;
+    margin-right: 10%;
+    }
+    table {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+  border-collapse: collapse;
+  color: #000000;
+    margin-left: auto;
+    margin-right: auto;
+}
+caption {
+  padding: 10px;
+  color: white;
+  background: #FFCBDB;
+  font-size: 18px;
+  text-align: left;
+  font-weight: bold;
+}
+th {
+  border-bottom: 3px solid #B9B29F;
+  padding: 10px;
+  text-align: left;
+}
+td {
+  padding: 10px;
+}
+tr:nth-child(odd) {
+}
+tr:nth-child(even) {
+  background: #E8E6D1;
+}
+{% endblock %}
+{% block body %}
+    <div class="account">
+ {% csrf_token %}
+    <div class="cont">
+<h1>Заказать номер {{ order.id }}</h1>
+<h4><h4>Информация о поездке</h4>
+<p>{{ order.date }}</p>
+    <p>{{ order.startTime }}</p>
+    <h4><h4>Информация о машине</h4>
+        <p>Номер водителя :{{ taxis.phone }}</p>
+    <p>Тариф машын :{{ taxis.tariff }}</p>
+    <p>Марка машины :{{ taxis.carBrand }}</p>
+        <p>Марка машины :{{ taxis.carNumber }}</p>
+
+</ul>
+    </div>
+    </div>
+
+
+    </div>
+{% endblock %}

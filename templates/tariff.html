@@ -1,0 +1,49 @@
+{% extends 'taxi.html' %}
+{% block style %}
+table {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+  border-collapse: collapse;
+  color: #000000;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+caption {
+  padding: 10px;
+  color: white;
+  background: #FFCBDB;
+  font-size: 18px;
+  text-align: left;
+  font-weight: bold;
+}
+th {
+  border-bottom: 3px solid #B9B29F;
+  padding: 10px;
+  text-align: left;
+}
+td {
+  padding: 10px;
+}
+tr:nth-child(odd) {
+}
+tr:nth-child(even) {
+  background: #E8E6D1;
+}
+{% endblock %}
+{% block body %}
+    <table>
+  <caption>
+    Тарифы на поезки
+  </caption>
+  <tr>
+    <th>Наименование тарифа</th>
+    <th>Цена за км, руб</th>
+  </tr>
+        {% for tar in tariff %}
+  <tr>
+    <td>{{ tar.name}}</td>
+    <td>{{ tar.costKm}}</td>
+  </tr>
+    {% endfor %}
+</table>
+    {% endblock %}
