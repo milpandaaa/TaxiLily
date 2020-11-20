@@ -3,11 +3,13 @@ import datetime
 
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import FormView
 from .models import *
 from .forms import *
 
 
+# @csrf_protect
 class MyRegisterFormView(FormView):
     form_class = UserCreationForm
 
@@ -45,7 +47,7 @@ def freeCar(request):
     if request.method == "POST":
         date = request.POST.get("date")
         time = request.POST.get("time")
-        temp = Order.objects.filter(date=date, startTime__gte=time, endTime__lte=time).values('taxis')
+        temp = Order.objects.filter(date=date, startTime__lte=time, endTime__gte=time).values('taxis')
         temp = Taxis.objects.exclude(user_id__in=temp).values('user_id')
         print(temp)
         context = {"tax": Taxis.objects.filter(user_id__in=temp)}
